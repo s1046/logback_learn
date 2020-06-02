@@ -1,0 +1,77 @@
+<!--levelFilter演示
+<configuration>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <encoder>
+            <pattern>
+                %-4relative [%thread] %-5level %logger{30} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+    <root level="DEBUG">
+        <appender-ref ref="CONSOLE" />
+    </root>
+</configuration>
+-->
+<!--阈值filter >info才会打印-->
+<!--
+<configuration>
+    <appender name="CONSOLE"
+              class="ch.qos.logback.core.ConsoleAppender">
+
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <encoder>
+            <pattern>
+                %-4relative [%thread] %-5level %logger{30} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+    <root level="DEBUG">
+        <appender-ref ref="CONSOLE" />
+    </root>
+</configuration>
+-->
+
+<!--MDC的使用-->
+<!--
+<configuration>
+    <appender name="CONSOLE"
+              class="ch.qos.logback.core.ConsoleAppender">
+
+        <layout>
+            <Pattern>%X{first} %X{last} - %m%n</Pattern>
+        </layout>
+    </appender>
+    <root level="DEBUG">
+        <appender-ref ref="CONSOLE" />
+    </root>
+</configuration>
+-->
+<!--条件表达式子-->
+<configuration>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+            <evaluator> <!-- defaults to type ch.qos.logback.classic.boolex.JaninoEventEvaluator -->
+                <expression>return message.contains("billing");</expression>
+            </evaluator>
+            <OnMismatch>NEUTRAL</OnMismatch>
+            <OnMatch>DENY</OnMatch>
+        </filter>
+        <encoder>
+            <pattern>
+                %-4relative [%thread] %-5level %logger - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>
